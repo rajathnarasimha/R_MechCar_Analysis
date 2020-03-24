@@ -1,0 +1,366 @@
+Steps to predict the mpg of MechCar_mpg based on the input dataset:
+
+1. Get the table data and go through the columns to check the variables.
+
+2. The column names had spaces and remove them to have a clear column names.
+
+3. Scatter plots to see the relationship between vehicle_length and mpg.
+  Observation: The plot is dense in the interval 40-60 for the MPG and  for the                   vehicle_weight window 4000-6000
+
+4. Scatter plots to see the relationship between vehicle_weight and mpg.
+  Observation: mpg gradually increases as the vehicle_length increases. It is                    spread linearly.
+
+5. Scatter plots to see the relationship between ground_clearance and mpg.
+  Observation: mpg(20-60) is dense for the ground_clearance in the range 10-15.
+
+6.Scatter plots to see the relationship between ground_clearance and mpg.
+
+7.Plot the density for the dataset to visualize the  distribution of MPG.
+  Observation: The distribution is normal
+
+8.Shaprio test to get the p-value of distribution.
+  Observation: 
+    Shapiro-Wilk normality test
+    data:  mechCar_mpg_data$mpg
+    W = 0.98536, p-value = 0.7869
+    Since p-value is more than 0.05 the variable is strongly normally distributed.
+    
+8. Get the correlation between mpg and vehicle_length, vehicle_weight, ground_clearance, spoiler_angle and AWD.
+    Observation: 
+    vehicle_length ground_clearance vehicle_weight spoiler_angle         AWD         mpg
+vehicle_length       1.00000000      -0.31663112    -0.12271790    0.02577114  0.08565668  0.60947984
+ground_clearance    -0.31663112       1.00000000     0.08511338   -0.21112057 -0.15214456  0.32874886
+vehicle_weight      -0.12271790       0.08511338     1.00000000   -0.11307851 -0.03698098  0.09068314
+spoiler_angle        0.02577114      -0.21112057    -0.11307851    1.00000000 -0.09120266 -0.02083999
+AWD                  0.08565668      -0.15214456    -0.03698098   -0.09120266  1.00000000 -0.14166977
+mpg                  0.60947984       0.32874886     0.09068314   -0.02083999 -0.14166977  1.00000000
+    
+    0.6094798 Moderate positive correlation between vehicle_length and mpg
+    
+    0.3287489 Weak positive correlation between ground_clearance and mpg
+    
+    0.09068314 Negligible positive correlation between vehicle_weight and mpg
+    
+    -0.02083999 Negligible negative correlation between spoiler_angle and mpg
+    
+    -0.1416698  Negligible negative correlation between AWD and mpg
+
+9. linear regression tests the following hypotheses:
+
+H0 : The slope of the linear model is zero, or m = 0
+
+Ha : The slope of the linear model is not zero, or m ≠ 0
+    
+    
+10.Multiple linear regression:
+
+According to our results, our vehicle_length and ground_clearance are the only two variables that are statistically unlikely to provide random amounts of variance to the linear model. 
+
+Call:
+lm(formula = mpg ~ vehicle_length + ground_clearance + vehicle_weight + 
+    spoiler_angle + AWD, data = mechCar_mpg_data)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-19.4701  -4.4994  -0.0692   5.4433  18.5849 
+
+Coefficients:
+                   Estimate Std. Error t value Pr(>|t|)    
+(Intercept)      -1.040e+02  1.585e+01  -6.559 5.08e-08 ***
+vehicle_length    6.267e+00  6.553e-01   9.563 2.60e-12 ***
+ground_clearance  3.546e+00  5.412e-01   6.551 5.21e-08 ***
+vehicle_weight    1.245e-03  6.890e-04   1.807   0.0776 .  
+spoiler_angle     6.877e-02  6.653e-02   1.034   0.3069    
+AWD              -3.411e+00  2.535e+00  -1.346   0.1852    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 8.774 on 44 degrees of freedom
+Multiple R-squared:  0.7149,	Adjusted R-squared:  0.6825 
+F-statistic: 22.07 on 5 and 44 DF,  p-value: 5.35e-11
+
+
+Q. Which variables/coefficients provided a non-random amount of variance to the mpg values in the dataset?
+
+Vehicle_length and ground_clearance provided the most non-random amount of variance to mpg values.
+
+According to our results, our vehicle_length and ground_clearance are the only two variables that are statistically unlikely to provide random amounts of variance to the linear model. 
+
+Coefficients:
+                   Estimate Std. Error t value Pr(>|t|)    
+(Intercept)      -1.040e+02  1.585e+01  -6.559 5.08e-08 ***
+vehicle_length    6.267e+00  6.553e-01   9.563 2.60e-12 ***
+ground_clearance  3.546e+00  5.412e-01   6.551 5.21e-08 ***
+vehicle_weight    1.245e-03  6.890e-04   1.807   0.0776 .  
+spoiler_angle     6.877e-02  6.653e-02   1.034   0.3069    
+AWD              -3.411e+00  2.535e+00  -1.346   0.1852    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 8.774 on 44 degrees of freedom
+Multiple R-squared:  0.7149,	Adjusted R-squared:  0.6825 
+F-statistic: 22.07 on 5 and 44 DF,  p-value: 5.35e-11
+
+Q.Is the slope of the linear model considered to be zero? Why or why not?
+
+Yes. The slope for linear models of mpg vs vehicle_weight , mpg vs spoiler_angle, mpg vs AWD are Zero as their p-value is more than the significance level 0.05%.
+
+Q.Does this linear model predict mpg of MechaCar prototypes effectively? Why or why not?
+                  Estimate Std. Error t value Pr(>|t|)  
+vehicle_length    6.267e+00  6.553e-01   9.563 2.60e-12 ***
+ground_clearance  3.546e+00  5.412e-01   6.551 5.21e-08 ***
+
+Yes. The lower the Pr(|t|), higher the effectiveness of the linear model.The linear model of mpg vs vehicle_length and ground_clearance predicts the mpg of mechCar prototypes. As you increase the vehicle_length and ground clearance, the mpg of mechCar increases as they have positive raise/slope on mpg.
+
+---------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------
+Suspenstion Coil Summary:
+
+suspension_summary <- suspension_data %>% group_by(Manufacturing_Lot) %>% summarize(Mean_PSI=mean(PSI), Median_PSI=median(PSI), SD_PSI=sd(PSI), var_PSI = var(PSI)) #create summary table
+
+Lot 1 mean: 1500.00 Median:1500.00 Standard Deviation: 0.9897 Variance: 0.9795
+
+
+Lot 2 mean: 1500.00 Median:1500.00 Standard Deviation: 2.7330 Variance: 7.46938
+
+
+Lot 3 mean: 1496.14 Median:1498.5 Standard Deviation: 13.0493725 Variance: 170.2861224
+
+Observation:
+
+Q. The design specifications for the MechaCar suspension coils dictate that the variance of the suspension coils must not exceed 100 pounds per inch. Does the current manufacturing data meet this design specification? Why or why not?
+
+The Lot 1(0.9795) and Lot 2(7.46938) coils have variance less than 100 pounds per inch and they adhere the specifications.
+
+But, the Lot 3 coils have variance of 170.286 which is higher than specification 100pounds per inch. Hence they need to be handled properly to fall under the design specification.
+
+--------------------------------------------------------------------------
+Suspension coil T-test:
+
+The one-sample t-test is used to assert if there is a statistical difference between the means of a sample dataset and hypothesized, potential population dataset which is 1500 pounds per inch.
+
+One-Sample T test:
+
+t.test(suspension_data$PSI, mu=1500)
+
+	One Sample t-test
+
+data:  suspension_data$PSI
+t = -1.8931, df = 149, p-value = 0.06028
+alternative hypothesis: true mean is not equal to 1500
+95 percent confidence interval:
+ 1497.507 1500.053
+sample estimates:
+mean of x 
+  1498.78 
+  
+Assuming our significance level was the common 0.05 percent, our p-value 0.06028 is above our significance level. Therefore, we do not have sufficient evidence to reject the null hypothesis, and we would state that the two means are statistically similar.
+
+------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+Statistical Study Design:
+
+From the analysis done so far MechCar prototype has some advantages over the other cars in the market.
+
+- The vehicle length linearly increases the mpg of MechCar and we can use this to increase the mpg to more than 50mpg. The cars in the market usually offer less than 50mpg.
+
+- The ground clearance linearl increases the mpg of MechCar. We can offer cars with more ground clearance and more mpg to compete with the cars in the market.
+
+
+Usually when a person wants to buy a new car he looks at the following metrics:
+
+-Cost: [Under 20K] Anything you buy is an inverstment. Customers want a reasonablly priced car for them to invest in.Ideally if MechCars can provide cars with cost around 20K then we would have more customers from the rest of the market as the cars are not cheap so far in the market today.
+
+DataType: Numerical/Continous
+
+Q. How will the cost affect sales of MechCars?
+  Collect all the cost of vehicles.
+  Test: linear regression test.
+  H0: The slope of the linear model is zero, or m = 0
+  Ha: The slope of the linear model is not zero, or m ≠ 0
+  
+  [Null hypothesis: Cost will affect 50% of the sales positively.
+  Alternate hypothesis: Cost will not affect 50% of the sales positively.]
+
+
+
+-Fuel Type: [Electric/Gas] The gasoline used by cars is a non renewabale energy and once we run out of gasoline we could never use cars for transport. Hence it is time to move to the Electric Cars which use renewable energy(solar energy). Providing options to the customers with both type of cars opens up a lot of customers to the company.
+
+DataType: Nominal
+Collect all the fuel type information of the vehicles
+Q. How will this affect the mpg?
+  Test: linear regression test.
+  H0: The slope of the linear model is zero, or m = 0
+  Ha: The slope of the linear model is not zero, or m ≠ 0
+  Null hypothesis: Cost will affect 50% of the mpg positively.
+  Alternate hypothesis: Cost will not affect 50% of the mpg positively.
+  
+Q. How will this affect the sales?
+  Test: linear regression test.
+  H0: The slope of the linear model is zero, or m = 0
+  Ha: The slope of the linear model is not zero, or m ≠ 0
+  Null hypothesis: Cost will affect 50% of the sales positively.
+  Alternate hypothesis: Cost will not affect 50% of the sales positively.
+
+
+
+-Fuel Efficiency: [Electric(cpm)60mpg/Fuel(mpg 50mpg)]: If we are going to sell Electric cars then we need to make sure we give the best charge per miles to the customers so that they can charge once and run for more than 200 miles. Also by using the methods suggested earlier in this analysis we can use Vehicle length and Ground clearance to increase the miles per gas.
+
+Datatype: Numerical/Continous
+
+Collect all the fuel efficiency information of vehicles.
+Q. The design specifications for the MechaCar fuel efficiency dictate that the variance of the must not below 50mpg. Does the current manufacturing data meet this design specification? Why or why not?
+  
+  Test: Summarize the mpg and then run one sample T test.
+  H0 : There is no statistical difference between the observed sample mean and its presumed              population mean.
+  Ha : There is a statistical difference between the observed sample mean and its presumed               population mean.
+  Null hypothesis: There is no statistical difference between the observed sample mean and its presumed population mean 50mpg.
+  Alternate hypothesis: There is a statistical difference between the observed sample mean and its presumed population mean 50 mpg.
+
+Q. Which variables/coefficients provided a non-random amount of variance to the mpg values in the dataset?
+  Test: Multiple linear regression test.
+  H0: The slope of the linear model is zero, or m = 0
+  Ha: The slope of the linear model is not zero, or m ≠ 0
+Q. Is the slope of the linear model considered to be zero? Why or why not?
+Q. Does this linear model predict mpg of MechaCar prototypes effectively? Why or why not?
+Q. How will the fuel efficiency affect the Sales?
+  Test: linear regression test.
+  H0: The slope of the linear model is zero, or m = 0
+  Ha: The slope of the linear model is not zero, or m ≠ 0
+  Null hypothesis: Fuel Efficiency will affect 50% of the sales positively.
+  Alternate hypothesis: Fuel Efficiency will not affect 50% of the sales positively.
+
+
+
+-Color Options: [Grey/White/Black/Red/Blue]: Providing different color options to the customers will only provide them with the different choices so that they dont have to go to our competitors because we did not have that color model.
+
+DataType: Nominal
+Collect all the color option information of vehicles.
+Q. Which color models are choosen the most and how will that affect our production and booking to delivery time??
+
+Test: Chi Squared.
+Collect data of each colored cars.
+H0 : There is no difference in frequency distribution between both groups.
+Ha : There is a difference in frequency distribution between both groups
+
+
+
+-Seats/Space: [4 doors/2 doors]: The majority of customers who buy cars have family usage. They need a spacipious car with more than 4 seats and 4 doors. Some people may want 2 doors for small space. Providing these options will only attract variety of customers.
+
+DataType: Numerical
+Collect all the seat/space information of vehicles.
+Q. Who are our most bought customers family or single people?? 
+Collect data of both family buyers and single buyers.
+Test: Chi-Squared
+H0 : There is no difference in frequency distribution between both groups.
+Ha : There is a difference in frequency distribution between both groups
+Q. Will the seats number and space affects our sales??
+Test: linear regression test.
+  H0: The slope of the linear model is zero, or m = 0
+  Ha: The slope of the linear model is not zero, or m ≠ 0
+Q. Will the seats number and space affect our mpg??
+Test: linear regression test.
+  H0: The slope of the linear model is zero, or m = 0
+  Ha: The slope of the linear model is not zero, or m ≠ 0
+
+
+
+-Type: [autonomous(self driving)/manual]: In this age of Artificial Intelligence and Machine Learning the driving has been made autonomous. We need to get on with the trend and provide self driving cars for customers.
+
+DataType: Nominal
+Collect all the type information of vehicles.
+Q. What category of cars have been booked the most? and how do they affect our sales??
+Collect data of both self driving buyers and manual buyers.
+Test: Chi-Squared
+H0 : There is no difference in frequency distribution between both groups.
+Ha : There is a difference in frequency distribution between both groups
+Q. How the self driving cars when it comes to fuel efficiency ??
+correlation test between type of car and fuel efficiency.
+
+Q. What is the relation between self driving cars and car safety ratings?
+correlation test between type of car and car safety ratings.
+
+
+
+-Car Safety Ratings: [1 to 5]: We should get our Crash tests like Accident avoidance, rollover resistance and rear impact protection and get the overall rating to 5 so that our cars are less prone to unfortunate accidents.
+
+DataType: Numerical
+Collect all the fuel rating information of vehicles.
+Q. What is realtionship between car safety ratings and sales? and how will affect the sales?
+Test: linear regression test.
+  H0: The slope of the linear model is zero, or m = 0
+  Ha: The slope of the linear model is not zero, or m ≠ 0
+
+
+
+-Service/Warranty: [5 years/100K miles free service]: Provide free service for customers who buy our cars for 5 years and upto 100K miles.
+
+DataType: Nominal
+Collect all the servicing information of vehicles.
+Q. How does service/warranty affects our sales?
+Collect services list of all the buyers.
+Test: linear regression test.
+  H0: The slope of the linear model is zero, or m = 0
+  Ha: The slope of the linear model is not zero, or m ≠ 0
+Q. How freequently people come for service in the free service period? 
+Q. How is the car condition during those free services?
+
+-order/booking to on road delivery timings: [number of days(30 days)]: The cars in the market take upto 6 months to deliver a car after booking it. Nobody wants to wait for so long. We need to provide the least delivery time so that customers can get their car within 30 days.
+
+DataType: Numerical
+
+Q. How will this affect our sales??
+Collect all the delivery groups
+Test: Chi-Squared.
+H0 : There is no difference in frequency distribution between both groups.
+Ha : There is a difference in frequency distribution between both groups
+
+
+-allow for car customization online: [yes/no]: Some of our competitors in the market(range rover) have options to customize your own car with your choice of color, engine, technology.
+
+DataType: Nominal
+Q. How will this affect our sales??
+Collect both yes and no groups
+Test: Chi-Squared.
+H0 : There is no difference in frequency distribution between both groups.
+Ha : There is a difference in frequency distribution between both groups
+
+
+
+
+-AWD:[1/0]: Offering all wheel drive to the cars is important so that we can sell our cars in any climate place like snowy or desert or urban.
+
+DataType: Numerical
+Q. How will this affect our sales??
+Collect all the vehicles information of AWD.
+Test: linear regression test.
+  H0: The slope of the linear model is zero, or m = 0
+  Ha: The slope of the linear model is not zero, or m ≠ 0
+
+---------------------------------------------------------------
+
+Tests done:
+
+Multiple Linear Regression:
+Provide a multiple liner regression using all the above mentioned variables with sales, mpg and analyse the results. 
+
+Two-Sample T test:
+Is there a statistical difference between the distribution means from two samples?
+
+H0 : The difference between our paired observations (the true mean difference, or “μd”) is equal to zero.
+Ha : The difference between our paired observations (the true mean difference, or “μd”) is not equal to zero.
+
+Chi-Squared Test:
+Is there a difference in categorical frequencies between groups?
+
+Data to be collected:
+
+-Collect all the above mentioned metrics for MechCar prototype for multiple regression test.
+-Collect the sales data from other competitor car companies to run two sample t test.
+-The categorical types are present in the above mentioned metrics, use them to run chi-squared test.
+
+
+
+
